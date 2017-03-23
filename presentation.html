@@ -22,52 +22,42 @@ Un framework javascript pour les applications Web
 ---
 layout: false
 .left-column[
-  ## Static pages
+  ## Pages statiques
 ]
 .right-column[
 
 ```xml
 <html>
   <body>
-    <h1>Mattias homepage</h1>
-    <p>Welcome to my homepage</p>
+    <h1>Accueil Guillaume.io</h1>
+    <p>Bienvenue sur mon site</p>
   </body>
 </html>
 ```
 ]
 ---
 .left-column[
-  ## Static pages
-  ## Generated pages
+  ## Pages statiques
+  ## Pages générées
 ]
 .right-column[
-### perl
-
-```perl
-$name = "Mattias";
-print "<html>";
-print "<body>";
-print "<h1>$name homepage</h1>";
-print "<p>Welcome to my homepage</p>";
-print "</body>";
-print "</html>";
-```
-
-### php
+### php, perl, java (jsp), ...
 
 ```php
 <html>
 <body>
-<h1><?php $name="Mattias"; echo $name ?> homepage</h1>
-<p>Welcome to my homepage</p>
+<h1>Accueil <?php $name="Guillaume.io"; echo $name ?></h1>
+<p>Bienvenue sur mon site</p>
 </body>
 </html>
 ```
+- La page devient dynamique. 
+- Les données sont injectées coté serveur
 ]
 ---
 .left-column[
-  ## Static pages
-  ## Generated pages
+  ## Pages statiques
+  ## Pages générées
   ## Javascript & DOM
 ]
 .right-column[
@@ -75,21 +65,22 @@ print "</html>";
 <html>
 <body>
 <h1></h1>
-<p>Welcome to my homepage</p>
+<p>Bienvenue sur mon site</p>
 <script>
     h1 = document.getElementsByTagName("h1")[0];
-    h1.innerHTML = "Mattias Homepage";
+    h1.innerHTML = "Accueil Guillaume.io";
 </script>
 </body>
 </html>
 ```
-- DOM Manipulation
-- Browser compatibility problems!
+- Le javascript maniupule le DOM pour construire la page coté client
+- Les problèmes de compatibilité entre navigateurs apparaisent!
+- Architecture Ajax : applications web dynamiques et interactives
 ]
 ---
 .left-column[
-## Static pages
-## Generated pages
+## Pages statiques
+## Pages générées
 ## Javascript & DOM
 ## jQuery
 ]
@@ -98,21 +89,166 @@ print "</html>";
 <html>
 <body>
 <h1></h1>
-<p>Welcome to my homepage</p>
+<p>Bienvenue sur mon site</p>
 <script>
     $("h1").innerHTML("Mattias Homepage");
 </script>
 </body>
 </html>
 ```
-- Powerful element selection
-- Browser compatibility handled by library
-- Same DOM manipulation
-
+- Même manipulation du DOM
+- Sélection des éléments plus puissante
+- Compatibilité des navigateurs gérée par la librairie
+- Code source rarement structuré 
 ]      
-      
-      
-## Besoins
+---
+name:exemple
+
+## Exemple d'application Javascript
+.large-image[
+  ![dashborad](dashboard.jpg)
+]      
+---
+template: inverse
+class: center
+
+## Angular JS
+Les concepts dans le détail
+---
+layout: false
+### Concepts clés
+- Architecture MVC
+- Data-Binding
+- Injection des dépendances
+- Manipulation du DOM au moyen de directives
+---
+
+##Architechture MVC: Model View Controler
+
+
+  ![mvc](578px-ModeleMVC.png)
+  
+
+.footnote[.pull-rigth.black[<small>[image wikipédia](https://fr.wikipedia.org/wiki/Mod%C3%A8le-vue-contr%C3%B4leur#/media/File:ModeleMVC.png)]</small>] 
+
+---
+
+.left-column[
+  ## Model
+]
+.right-column[
+
+Le modèle complet est contenu dans une structure de donnée Javascript
+
+```javascript
+        $scope = {
+           employeeName: "Guillaume",
+           company: "Celad"
+        }
+```
+]
+
+---
+.left-column[
+  ## Model
+  ## View
+]
+.right-column[
+"Html étendu" html avec des références au modèle
+
+```html
+<h2>{{company}}</h2>
+Nom employe:
+<input ng-model="employeeName">
+</input>
+<button ng-click="save_info()">Submit</button>
+```
+### Resultat
+
+.sample[
+<h2>Celad</h2>
+Employee name:
+<input value="Guillaume"></input>
+<button ng-click="save_info()">Submit</button>
+]
+
+]
+
+---
+.left-column[
+  ## Model
+  ## View
+  ## Controller
+]
+.right-column[
+Code Javascript qui alimente la vue et réagit a ses changements 
+
+```javascript
+function myCtrl( $scope ) {
+  //le modèle
+  $scope = {
+     employeeName: "Guillaume",
+     company: "Celad"
+  };
+  // le traitement
+  $scope.save_info = function() {
+        console.log( $scope.employeeName );
+  };
+}
+```
+]
+---
+
+## Data-Binding
+
+- C'est un moyen de lier la partie vue à la partie logique.
+
+- Lorsqu'une donnée change coté controleur, la vue est modifiée automatiquement et inversement.
+---
+
+
+## L'injection des dépendances
+
+- Permet à des modules de ne pas se soucier de l'instanciation des modules dont il dépend. 
+
+
+---
+
+## $scope et $watch
+---
+
+## Manipulation du DOM au moyen de directives
+
+---
+## Les services
+
+---
+## Les filtres
+
+---
+## La gestion des routes
+
+---
+
+## Les tests
+
+---
+
+
+template: inverse
+class: center
+
+## L'environnement de developpement
+Comment coder !
+---
+
+template: inverse
+class: center
+
+## Angular chez ITCE
+Ce que ITCE fait avec Angular
+
+
 
     </textarea>
     <script src="https://remarkjs.com/downloads/remark-latest.min.js">
