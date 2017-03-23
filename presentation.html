@@ -17,6 +17,101 @@ class: center, middle, inverse
 Un framework javascript pour les applications Web
 .footnote[[angularjs.org](http://angularjs.org)]
 ---
+      
+## Un peu d'histoire sur les applications Web
+---
+layout: false
+.left-column[
+  ## Static pages
+]
+.right-column[
+
+```xml
+<html>
+  <body>
+    <h1>Mattias homepage</h1>
+    <p>Welcome to my homepage</p>
+  </body>
+</html>
+```
+]
+---
+.left-column[
+  ## Static pages
+  ## Generated pages
+]
+.right-column[
+### perl
+
+```perl
+$name = "Mattias";
+print "<html>";
+print "<body>";
+print "<h1>$name homepage</h1>";
+print "<p>Welcome to my homepage</p>";
+print "</body>";
+print "</html>";
+```
+
+### php
+
+```php
+<html>
+<body>
+<h1><?php $name="Mattias"; echo $name ?> homepage</h1>
+<p>Welcome to my homepage</p>
+</body>
+</html>
+```
+]
+---
+.left-column[
+  ## Static pages
+  ## Generated pages
+  ## Javascript & DOM
+]
+.right-column[
+```xml
+<html>
+<body>
+<h1></h1>
+<p>Welcome to my homepage</p>
+<script>
+    h1 = document.getElementsByTagName("h1")[0];
+    h1.innerHTML = "Mattias Homepage";
+</script>
+</body>
+</html>
+```
+- DOM Manipulation
+- Browser compatibility problems!
+]
+---
+.left-column[
+## Static pages
+## Generated pages
+## Javascript & DOM
+## jQuery
+]
+.right-column[
+```xml
+<html>
+<body>
+<h1></h1>
+<p>Welcome to my homepage</p>
+<script>
+    $("h1").innerHTML("Mattias Homepage");
+</script>
+</body>
+</html>
+```
+- Powerful element selection
+- Browser compatibility handled by library
+- Same DOM manipulation
+
+]      
+      
+      
 ## Besoins
 
     </textarea>
