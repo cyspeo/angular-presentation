@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <script src="lib/angular.js"></script>
+    <script>
+    var app = angular.module('app', []);
+    app.controller('mainCtrl',  function($scope) {
+        $scope.name="Cedric";
+        $scope.raz = function() {
+             $scope.name = "";
+         }   
+    });
+
+    </script>
+</head>
+<body ng-app="app" >
+    <h1>Simple Data Binding with AngularJS</h1>
+    <br />
+    <div  ng-controller="mainCtrl">
+        Name: <input type="text" ng-model="name" /><button ng-click="raz()">Raz</button>
+        <br /><br /> Welcome to AngularJS {{name}}
+    </div>
+</body>
+</html>

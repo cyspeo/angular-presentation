@@ -61,6 +61,7 @@ layout: false
   ## Javascript & DOM
 ]
 .right-column[
+### Single Page Application
 ```xml
 <html>
 <body>
@@ -73,7 +74,7 @@ layout: false
 </body>
 </html>
 ```
-- Le javascript maniupule le DOM pour construire la page coté client
+- Le javascript manipule le DOM pour construire la page coté client
 - Les problèmes de compatibilité entre navigateurs apparaisent!
 - Architecture Ajax : applications web dynamiques et interactives
 ]
@@ -85,13 +86,14 @@ layout: false
 ## jQuery
 ]
 .right-column[
+### Single Page Application
 ```xml
 <html>
 <body>
 <h1></h1>
 <p>Bienvenue sur mon site</p>
 <script>
-    $("h1").innerHTML("Mattias Homepage");
+    $("h1").innerHTML("Accueil Guillaume.io");
 </script>
 </body>
 </html>
@@ -99,12 +101,40 @@ layout: false
 - Même manipulation du DOM
 - Sélection des éléments plus puissante
 - Compatibilité des navigateurs gérée par la librairie
-- Code source rarement structuré 
+- Très fortement lié au Id du DOM
+
+]      
+---
+.left-column[
+## Pages statiques
+## Pages générées
+## Javascript & DOM
+## jQuery
+## AngularJS
+]
+.right-column[
+### Single Page Application
+```xml
+<html ng-app="app">
+<head>
+  <script type="text/javascript" src="mainCtrl.js"></script>
+</head>
+<body ng-controller="mainCtrl as main">
+  <h1>Accueil {{main.name}} </h1>
+  <p>Bienvenue sur mon site</p>
+</body>
+</html>
+```
+- Séparation HTML / traitement
+- Data-Binding
+- Injection des dépendances
+- Même manipulation du DOM au moyen de directives
+
 ]      
 ---
 name:exemple
 
-## Exemple d'application Javascript
+## Exemple d'application Web Javascript
 .large-image[
   ![dashborad](dashboard.jpg)
 ]      
@@ -117,110 +147,196 @@ Les concepts dans le détail
 ---
 layout: false
 ### Concepts clés
-- Architecture MVC
-- Data-Binding
+Le framework repose sur un mécanisme de directives, utilisées sous forme de mot clés à insérer dans le HTML.
+
+La force des développeurs d'Angular est de proposer une vision de l'architecture d'une application Javascript avec quelques préconisations : 
+- découplage du DOM et de la logique,
+- utilisation de composants,
+- automatisation des tests,
+- découplage client/serveur.
+
+Le développement est simplifié par l'utilisation de principes tel que : 
+- le pattern MVC ou MV*
+- le Data-Binding
+- la modularité
 - Injection des dépendances
-- Manipulation du DOM au moyen de directives
----
-
-##Architechture MVC: Model View Controler
-
-
-  ![mvc](578px-ModeleMVC.png)
-  
-
-.footnote[.pull-rigth.black[<small>[image wikipédia](https://fr.wikipedia.org/wiki/Mod%C3%A8le-vue-contr%C3%B4leur#/media/File:ModeleMVC.png)]</small>] 
+- le routage
 
 ---
-
-.left-column[
-  ## Model
-]
-.right-column[
-
-Le modèle complet est contenu dans une structure de donnée Javascript
-
-```javascript
-        $scope = {
-           employeeName: "Guillaume",
-           company: "Celad"
-        }
-```
-]
-
----
-.left-column[
-  ## Model
-  ## View
-]
-.right-column[
-"Html étendu" html avec des références au modèle
-
+### Un "boilerplate" réduit
+Le code suivant est suffisant pour démarrer une application angular :
 ```html
-<h2>{{company}}</h2>
-Nom employe:
-<input ng-model="employeeName">
-</input>
-<button ng-click="save_info()">Submit</button>
+<html>
+   <head>
+      <script src="lib/angular.js"></script>     
+      <script src="app.js"></script>  
+   </head>       
+   <body ng-app="app">
+      <script>
+         var app = angular.module('app', []);
+      </script>         
+   </body>       
+</html>  
 ```
-### Resultat
-
-.sample[
-<h2>Celad</h2>
-Employee name:
-<input value="Guillaume"></input>
-<button ng-click="save_info()">Submit</button>
-]
-
-]
-
----
-.left-column[
-  ## Model
-  ## View
-  ## Controller
-]
-.right-column[
-Code Javascript qui alimente la vue et réagit a ses changements 
-
 ```javascript
-function myCtrl( $scope ) {
-  //le modèle
-  $scope = {
-     employeeName: "Guillaume",
-     company: "Celad"
-  };
-  // le traitement
-  $scope.save_info = function() {
-        console.log( $scope.employeeName );
-  };
-}
+var app = angular.module('app', []);
 ```
-]
+
+
+.footnote[.pull-rigth.black[<small>*Les exemples HTML suivant ce concentrerons sur le ```<body>```*</small>]] 
+
 ---
-
-## Data-Binding
-
-- C'est un moyen de lier la partie vue à la partie logique.
-
+### **Controller**, Data-Binding et Scope
+Ces trois concepts portent ensemble la colonne vertebrale d'angular.  
+- Il participe au découplage DOM - logique
+- Le controller implemente l'objet $scope qui permet la communication avec la vue
+- Il contient les fonctions à appeler 
+ 
+```html
+<body ng-app="app" ng-controller="mainCtrl as main">
+</body>       
+```
+```javascript
+var app = angular.module('app', []);
+app.controller('mainCtrl', function($scope) {
+   $scope.name="Cedric";
+   $scope.raz = function(){ 
+       $scope.name = "";
+   }
+});
+```
+---
+### Controller, **Data-Binding** et Scope
+- C'est un moyen de lier la vue au controller.
+- Toutes les données contenues dans le scope sont concernées
 - Lorsqu'une donnée change coté controleur, la vue est modifiée automatiquement et inversement.
----
+#### Exemple
+.sample[
+<iframe width="100%" height="300" src="./ex/ex1.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+]
 
+---
+### Controller, Data-Binding et **Scope**
+- Le scope est un objet partagé entre la vue est le controller,
+- Il représente le modèle de l'application
+- Chaque controleur créé son propre scope
+- L'application a un scope global **$rootScope** qui englobe tous les scopes
+```html
+<body ng-app="app" >
+    <h1>Simple Data Binding with AngularJS</h1>
+    <br />
+    <div  ng-controller="mainCtrl">
+        Name: <input type="text" ng-model="name" />
+        <button ng-click="raz()">Raz</button>
+        <br /><br /> Welcome to AngularJS {{name}}
+    </div>
+</body>
+```
+```javascript
+var app = angular.module('app', []);
+app.controller('mainCtrl', function($scope) {
+   $scope.name="Cedric";
+   $scope.raz = function(){ 
+       $scope.name = "";
+   }
+ }); 
+```
+---
+##Pattern MVC
+Les trois concepts, controller, binding et scope forme ensemble le pattern MVC.
+
+![mvc](mvc.jpg)
+On retrouve les principes préconisés par angular : 
+- découplage du DOM et de la logique,  
+- le pattern MVC ou MV*
+- le Data-Binding
+
+
+---
+## Les services
+- Les services d'Angular sont des fonctions ou des objets avec un but bien précis. 
+- Cela participe au désire de modularité voulu par les développeurs d'Angular.
+- Ce sont des singletons (instance unique).
+- Comme pour les directives les services d'Angular ont une notation particulière : il commence par **$**
+
+Angular fourni des services très utiles :
+- $location: permet d'intéragir avec l'URL du navigateurs
+- $route: permet de changer de vue en fonciton de l'URL
+- $http: permet de communiquer avec le serveur
+
+---
 
 ## L'injection des dépendances
 
 - Permet à des modules de ne pas se soucier de l'instanciation des modules dont il dépend. 
-
+- Angular va donc rechercher les services dont nous avons besoins, récupèrer leur instance et les injecter dans notre controleur.
+- L'ordre des services injectés n'a pas d'importance
+```javascript
+        var mainCtrl = function($scope, $http) {
+           ...
+        }
+```
+- Seconde notation nécessaire lorsqu'on minimise le javascript
+```javascript
+        var mainCtrl = ["$scope", "$http", function($scope, $http) {
+           ...
+        }];
+```
 
 ---
 
-## $scope et $watch
+## Création d'un services
+
+- La création d'un service est assez simple. 
+- Il suffit de déclarer une fonction au module de notre application.
+- L'exemple présenté, créé un service qui utilise le service $http pour récupèrer un flux rss sur un server.
+
+```javascript
+app.service('FeedService', ['$http', function ($http) {
+        this.parseFeed = function (url) {
+            return $http.jsonp('//ajax.googleapis.com/ajax/services/feed/load?v=1.0&amp;num=50&amp;callback=JSON_CALLBACK&amp;q=' + encodeURIComponent(url));
+        }
+}]);
+```
+```javascript
+app.controller("FeedCtrl", ['$scope', 'FeedService', function($scope, Feed) {
+    $scope.loadButonText = "Load";
+    $scope.loadFeed = function (e) {
+        Feed.parseFeed($scope.feedSrc).then(function (res) {
+            $scope.loadButonText = angular.element(e.target).text();
+            $scope.feeds = res.data.responseData.feed.entries;
+        },function errorCallback(response) {});        
+        });
+  ;
+    }
+}]);
+```
+
+
 ---
 
 ## Manipulation du DOM au moyen de directives
+- Les directives sont des attributs utilisés dans le code HTML.
+- Elles permettent de modifier ou transformer le DOM.
+- Pour bien les reconnaitre elles ont le prefixe **ng-**.
 
----
-## Les services
+
+- **ng-app** : permet d'initialiser l'application
+- **ng-controller** : permet d'associer un controller à un élément du DOM
+- **ng-model** : permet de lié un input, textarea ou select à une variable du contexte actuel (scope)
+
+
+```html
+<body ng-app="app" >
+    <h1>Simple Data Binding with AngularJS</h1>
+    <br />
+    <div  ng-controller="mainCtrl">
+        Name: <input type="text" ng-model="name" />
+        <button ng-click="raz()">Raz</button>
+        <br /><br /> Welcome to AngularJS {{name}}
+    </div>
+</body>
+```
 
 ---
 ## Les filtres
