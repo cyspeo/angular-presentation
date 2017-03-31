@@ -288,35 +288,49 @@ Angular fourni des services très utiles :
 ## Création d'un services
 
 - La création d'un service est assez simple. 
-- Il suffit de déclarer une fonction au module de notre application.
+- Il suffit de déclarer une fonction de type service au module de notre application.
 - L'exemple présenté, créé un service qui utilise le service $http pour récupèrer un flux rss sur un server.
 
 ```javascript
-app.service('FeedService', ['$http', function ($http) {
+app.service('feedService', ['$http', function ($http) {
         this.parseFeed = function (url) {
-            return $http.jsonp('//ajax.googleapis.com/ajax/services/feed/load?v=1.0&amp;num=50&amp;callback=JSON_CALLBACK&amp;q=' + encodeURIComponent(url));
-        }
+            return $http.get(url);
+        }       
 }]);
 ```
 ```javascript
-app.controller("FeedCtrl", ['$scope', 'FeedService', function($scope, Feed) {
-    $scope.loadButonText = "Load";
+app.controller("feedCtrl", ['$scope', 'feedService', function ($scope, Feed) {
+    $scope.feedSrc = "https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=9e8f2478bffb49bc92f9c43f75ceadbb";
+    $scope.filterText = "";
+    //Chargement du flux rss
     $scope.loadFeed = function (e) {
         Feed.parseFeed($scope.feedSrc).then(function (res) {
-            $scope.loadButonText = angular.element(e.target).text();
-            $scope.feeds = res.data.responseData.feed.entries;
-        },function errorCallback(response) {});        
+            $scope.feeds = res.data.articles;
         });
-  ;
     }
 }]);
 ```
-
+---
+##Résultat obtenu par le service créé
+Dans notre exemple la donnée **feeds** aura une liste d'objets avec la description suivante :
+```javascript
+"articles": [
+{
+   "author": "BBC News",
+   "title": "NHS operations: Waiting times to rise in 'trade-off', boss says",
+   "description": "Cancer care and A&E to be prioritised as health service leader in England says something has to give.",
+   "url": "http://www.bbc.co.uk/news/health-39420662",
+   "urlToImage": "https://ichef.bbci.co.uk/news/1024/cpsprodpb/178D0/production/_95346469_waitingroom.jpg",
+   "publishedAt": "2017-03-31T07:42:55Z"
+},...]
+```
 
 ---
 
-## Manipulation du DOM au moyen de directives
-- Les directives sont des attributs utilisés dans le code HTML.
+## Les directives
+- C'est un moyen de manipulation du DOM 
+- Elles se matérialise par des attributs utilisés dans le code HTML. 
+- Certaines peuvent être sous forme d'une class css ou d'un élément HTML 
 - Elles permettent de modifier ou transformer le DOM.
 - Pour bien les reconnaitre elles ont le prefixe **ng-**.
 
@@ -339,15 +353,117 @@ app.controller("FeedCtrl", ['$scope', 'FeedService', function($scope, Feed) {
 ```
 
 ---
-## Les filtres
+## ng-repeat : exemple d'un directive très utile
+Elle permet de répéter un élément HTML en parcourant un tableau d'objet.
+```html
+<div class="row">
+     <div class="list-group col-md-6">
+         <a href="" class="list-group-item" 
+         ng-repeat="feed in feeds | filter:filterText 
+         | orderBy:'publishedAt':true">
+             <h4 class="list-group-item-heading">{{feed.title}}</h4>
+             <p class="list-group-item-text">{{feed.description}}</p>
+             <small>{{feed.publishedAt | date:'dd-MM-yyyy hh:mm'}} </small>
+         </a>
+     </div>
+</div>
+```
+- Ici ng-repeat parcour notre tableau **feeds** contenant le flux rss récupéré par le service.
+- La variable **feed** contient l'objet d'une occurrence
+- L'affichage est filtré par la valeur de filterText 
+- L'affichage est également trié sur la date de publication par ordre décroissant
+---
+## Resultat de l'exemple **ng-repeat**
+.ex-ng-repeat[
+<iframe width="100%" height="100%" src="./ex/rssFeed/dist/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+]
 
 ---
-## La gestion des routes
+## Les filtres
+On l'a vu dans l'exemple précédent Angular propose plusieurs filtres utilisables dans le code HTML ou bien dans le javascript
 
+- Plusieurs filtres peuvent s'enchainer :
+  - {{expression | **uppercase** | **trim** }}  
+- Formatage d'un date :
+  - {{date javascript | date:'dd-MM-yyyy'}}
+- Le tri  :
+  - {{ng-repeat feed in feeds | **orderBy:'publishedAt':true**}}
+
+
+---
+## Création de filtre
+```javascript
+app.filter('highlight', function($sce) {
+    return function(text, search) {
+      if (search) text = text.replace(new RegExp('('+search+')', 'gi'),
+        '<span class="highlighted">$1</span>')
+      return $sce.trustAsHtml(text)
+    }
+});
+``` 
+Ce filtre remplace dans *text* le contenu de *search* par un élément HTML span pour mettre les caractères en surbrillance.
+
+L'utilisation se fait dans le code HTML comme ceci :
+```html
+<h4 class="list-group-item-heading" 
+ng-bind-html="feed.title | highlight:filterText"> </h4>
+```
+*La directive ng-bind-html permet d'inclure du HTML dans le DOM*
+
+
+---
+
+## La gestion des routes
+Dès que l'application se complexifie, nous allons devoir jongler avec différents écrans (vue).
+- le module ngRoute devient indispensable
+- il apporte une nouvelle directive : ng-view
+- ainsi que de nouveaux services : $route et son provider $routeProvider ainsi que $routeParams.
+
+<small><i>un provider permet d'instancier un service en le configurant</i></small>
+
+Le rôle de se module est d'associer à une url une vue et son controler.
+
+- **ng-view**: permet de définir l'élément HTML qui accueillera les vues
+- **$routeProvider**: permet d'enregistrer les routes (urls) de notre applications
+
+---
+## Configuration des routes de notre application
+La declaration de notre applicaiton utilise le module ngRoute
+```javascript
+var app = angular.module('app', ["ngRoute"]);
+```
+Puis on configure les routes à l'aide du service $routeProvider
+```javascript
+app.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider
+        .when('/', {
+            templateUrl: 'feed-list.html',
+            controller: "feedCtrl",
+            controllerAs: "ctrl"
+        })
+        .when('/detail/', {
+            templateUrl: 'feed-detail.html',
+            controller: "detailFeedCtrl",
+            controllerAs: "ctrl"
+        })
+        .otherwise({ redirectTo: '/' });
+}])
+```
 ---
 
 ## Les tests
+L'un des avantage d'utiliser Angular c'st de pouvoir faire des test unitaire sur la partie IHM.
 
+Le principe consiste à ecrire les tests dans un language pseudo naturel et d'utiliser une librairie javascript pour les exécuter. 
+
+Plusieurs librairies existent. J'ai choisi d'utiliser Jasmine associé à l'éxecuteur Karma.
+
+Karma permet de lancer les tests différents navigateur.
+### Outillages 
+Karma et karma client
+- Jasmine : npm install jasmine-core --save-dev
+- Karma: npm install karma --save-dev
+- Karma client: npm install -g karma-cli 
 ---
 
 
@@ -367,7 +483,7 @@ Ce que ITCE fait avec Angular
 
 
     </textarea>
-    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
     <script type="text/javascript">
       var hljs = remark.highlighter.engine;
     </script>

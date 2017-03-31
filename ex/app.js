@@ -1,18 +1,19 @@
 var app = angular.module('app', ["ngRoute"]);
 app.controller('mainCtrl', function ($scope) {
-    $scope.name = "Cedric";
-    $scope.raz = function () {
-        $scope.name = "";
+});
+app.controller("feedCtrl", ['$scope', 'feedService', function ($scope, Feed) {
+    $scope.loadButonText = "Load";
+    $scope.loadFeed = function (e) {
+        Feed.parseFeed($scope.feedSrc).then(function (res) {
+            $scope.loadButonText = angular.element(e.target).text();
+            $scope.feeds = res.data.responseData.feed.entries;
+        });
     }
-});
-app.controller('listFeedCtrl', function ($scope) {
-});
-app.controller('paramCtrl', function ($scope) {
-});
-app.config(function ($routeProvider) {
-    $routeProvider
-        .when('/', { controller: 'listFeedCtrl', templateUrl: 'embedded.listFeed.html' })
-        .when('/param', { controller: 'paramCtrl', templateUrl: 'embedded.param.html' })
-        .otherwise({ redirectTo: "/" });
-});
+}]);
+
+app.service('feedService', ['$http', function ($http) {
+        this.parseFeed = function (url) {
+            return $http.jsonp('//ajax.googleapis.com/ajax/services/feed/load?v=1.0&amp;num=50&amp;callback=JSON_CALLBACK&amp;q=' + encodeURIComponent(url));
+        }
+}]);
 
