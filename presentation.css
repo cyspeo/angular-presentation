@@ -151,3 +151,6 @@ code {
         -webkit-transform: scale(0.75);
         -webkit-transform-origin: 0 0;
 }
+.signature {
+    right: 10px; 
+}

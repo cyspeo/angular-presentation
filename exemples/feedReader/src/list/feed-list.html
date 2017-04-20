@@ -1,0 +1,27 @@
+<div class="row">
+    <h1>Feed Reader using AngularJS</h1>
+    <form class="form-horizontal" name="myForm">
+        <div class="form-group ">
+            <div class="input-group col-md-10">
+                <input type="text" class="form-control" name="feedSrc" placeholder="Enter Feed URL" ng-model="feedSrc">
+                <span class="input-group-btn">
+                        <button class="btn btn-primary" id="load-btn" ng-click="loadFeed()">Load</button>
+                    </span>
+                <div class=" col-md-2">
+                    <input type="text" class="form-control" placeholder="filter" ng-model="filterText">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="list-group col-md-6">
+
+        <a href="#/detail?feed={{feed}}" class="list-group-item" ng-repeat="feed in feeds | filter:filterText | orderBy:'publishedAt':true">
+            <img class="feed-image" ng-src="{{feed.urlToImage}}" width="70px" height="50px">
+            <h4 class="list-group-item-heading" ng-bind-html="feed.title | highlight:filterText"> </h4>
+            <p class="list-group-item-text" ng-bind-html="feed.description | highlight:filterText"></p>
+            <small>{{feed.publishedAt | date:'dd-MM-yyyy hh:mm'}} </small>
+        </a>
+    </div>
+</div>

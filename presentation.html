@@ -15,7 +15,7 @@ class: center, middle, inverse
 ---
 ## Angular JS
 Un framework javascript pour les applications Web
-.footnote[[angularjs.org](http://angularjs.org)]
+.footnote.signature[par guillaume Landriu]
 ---
       
 ## Un peu d'histoire sur les applications Web
@@ -136,7 +136,7 @@ name:exemple
 
 ## Exemple d'application Web Javascript
 .large-image[
-  ![dashborad](dashboard.jpg)
+  ![dashborad](images/dashboard.jpg)
 ]      
 ---
 template: inverse
@@ -163,7 +163,7 @@ Le développement est simplifié par l'utilisation de principes tel que :
 - le routage
 
 ---
-### Un "boilerplate" réduit
+### Une mise en oeuvre réduite
 Le code suivant est suffisant pour démarrer une application angular :
 ```html
 <html>
@@ -171,17 +171,17 @@ Le code suivant est suffisant pour démarrer une application angular :
       <script src="lib/angular.js"></script>     
       <script src="app.js"></script>  
    </head>       
-   <body ng-app="app">
-      <script>
-         var app = angular.module('app', []);
-      </script>         
+   <body ng-app="app">      
    </body>       
 </html>  
 ```
+app.js
 ```javascript
 var app = angular.module('app', []);
 ```
-
+Ce qu'il faut retenir : 
+- les deux fichiers Javascript 
+- la directive ng-app
 
 .footnote[.pull-rigth.black[<small>*Les exemples HTML suivant ce concentrerons sur le ```<body>```*</small>]] 
 
@@ -212,7 +212,7 @@ app.controller('mainCtrl', function($scope) {
 - Lorsqu'une donnée change coté controleur, la vue est modifiée automatiquement et inversement.
 #### Exemple
 .sample[
-<iframe width="100%" height="300" src="./ex/ex1.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="300" src="./exemples/exemple1/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 ]
 
 ---
@@ -243,15 +243,21 @@ app.controller('mainCtrl', function($scope) {
 ```
 ---
 ##Pattern MVC
-Les trois concepts, controller, binding et scope forme ensemble le pattern MVC.
+Les trois concepts, controller, binding et scope forment ensemble le pattern MVC.
 
-![mvc](mvc.jpg)
+![mvc](images/mvc.jpg)
 On retrouve les principes préconisés par angular : 
 - découplage du DOM et de la logique,  
 - le pattern MVC ou MV*
 - le Data-Binding
 
+---
+## Application exemple : lecteur de flux rss
+Les concepts expliqués après montrent du code tirés d'une application exemple qui lit un flux rss d'actualité.
 
+Une premiere vue liste les articles et une seconde affiche le détail d'un article. 
+
+![Architecture application exemple](images/archi.jpg)
 ---
 ## Les services
 - Les services d'Angular sont des fonctions ou des objets avec un but bien précis. 
@@ -260,9 +266,9 @@ On retrouve les principes préconisés par angular :
 - Comme pour les directives les services d'Angular ont une notation particulière : il commence par **$**
 
 Angular fourni des services très utiles :
-- $location: permet d'intéragir avec l'URL du navigateurs
-- $route: permet de changer de vue en fonciton de l'URL
-- $http: permet de communiquer avec le serveur
+- **$location**: permet d'intéragir avec l'URL du navigateurs
+- **$route**: permet de changer de vue en fonciton de l'URL
+- **$http**: permet de communiquer avec le serveur
 
 ---
 
@@ -289,7 +295,7 @@ Angular fourni des services très utiles :
 
 - La création d'un service est assez simple. 
 - Il suffit de déclarer une fonction de type service au module de notre application.
-- L'exemple présenté, créé un service qui utilise le service $http pour récupèrer un flux rss sur un server.
+- Notre service injecte le service $http pour récupèrer un flux rss sur un serveur.
 
 ```javascript
 app.service('feedService', ['$http', function ($http) {
@@ -330,17 +336,28 @@ Dans notre exemple la donnée **feeds** aura une liste d'objets avec la descript
 ## Les directives
 - C'est un moyen de manipulation du DOM 
 - Elles se matérialise par des attributs utilisés dans le code HTML. 
-- Certaines peuvent être sous forme d'une class css ou d'un élément HTML 
+- Certaines peuvent être sous forme d'une classe css ou d'un élément HTML 
 - Elles permettent de modifier ou transformer le DOM.
-- Pour bien les reconnaitre elles ont le prefixe **ng-**.
-
-
 - **ng-app** : permet d'initialiser l'application
 - **ng-controller** : permet d'associer un controller à un élément du DOM
 - **ng-model** : permet de lié un input, textarea ou select à une variable du contexte actuel (scope)
 
 
 ```html
+[...]
+<!-- Formulaire de saisie des critères de recherche -->
+<div class="form-group ">
+    <div class="input-group col-md-10">
+      <input type="text"  ng-model="feedSrc" class="form-control" name="feedSrc" placeholder="Enter Feed URL">
+        <span class="input-group-btn">
+          <button ng-click="loadFeed()" class="btn btn-primary" id="load-btn" >Load</button>
+        </span>
+    </div>
+</div>
+<!-- liste des articles -->
+[...]
+```
+<!--
 <body ng-app="app" >
     <h1>Simple Data Binding with AngularJS</h1>
     <br />
@@ -349,13 +366,14 @@ Dans notre exemple la donnée **feeds** aura une liste d'objets avec la descript
         <button ng-click="raz()">Raz</button>
         <br /><br /> Welcome to AngularJS {{name}}
     </div>
-</body>
-```
+</body>-->
 
 ---
-## ng-repeat : exemple d'un directive très utile
-Elle permet de répéter un élément HTML en parcourant un tableau d'objet.
+## ng-repeat : exemple d'une directive très utile
+Pour lister les articles dans notre page nous allons utiliser **ng-repeat**.
+Cette directive permet de répéter un élément HTML en parcourant un tableau d'objet.
 ```html
+<!-- liste des articles -->
 <div class="row">
      <div class="list-group col-md-6">
          <a href="" class="list-group-item" 
@@ -375,7 +393,7 @@ Elle permet de répéter un élément HTML en parcourant un tableau d'objet.
 ---
 ## Resultat de l'exemple **ng-repeat**
 .ex-ng-repeat[
-<iframe width="100%" height="100%" src="./ex/rssFeed/dist/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="100%" src="https://cyspeo.github.io/angular-presentation/ex/rssFeed/dist/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 ]
 
 ---
@@ -428,11 +446,12 @@ Le rôle de se module est d'associer à une url une vue et son controler.
 
 ---
 ## Configuration des routes de notre application
-La declaration de notre applicaiton utilise le module ngRoute
+La declaration de notre application utilise le module ngRoute
 ```javascript
 var app = angular.module('app', ["ngRoute"]);
 ```
 Puis on configure les routes à l'aide du service $routeProvider
+
 ```javascript
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
@@ -450,35 +469,127 @@ app.config(['$routeProvider', function ($routeProvider) {
 }])
 ```
 ---
-
-## Les tests
-L'un des avantage d'utiliser Angular c'st de pouvoir faire des test unitaire sur la partie IHM.
-
-Le principe consiste à ecrire les tests dans un language pseudo naturel et d'utiliser une librairie javascript pour les exécuter. 
-
-Plusieurs librairies existent. J'ai choisi d'utiliser Jasmine associé à l'éxecuteur Karma.
-
-Karma permet de lancer les tests différents navigateur.
-### Outillages 
-Karma et karma client
-- Jasmine : npm install jasmine-core --save-dev
-- Karma: npm install karma --save-dev
-- Karma client: npm install -g karma-cli 
+## Exemple du routage
+*<small>Un clic sur un article déclenche le routage vers la page détails</small>*
+.ex-ng-repeat[
+<iframe width="100%" height="100%" src="https://cyspeo.github.io/angular-presentation/ex/rssFeed/dist/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+]
 ---
+template: inverse
+class: center
 
+## Les tests unitaires
+Apercu 
+---
+## Les tests
+- Test unitaires possible sur les différents module/composants (contrôleurs, services, directives)
+- Le principe consiste à ecrire les tests dans un language pseudo naturel 
+    - **Jasmine** fourni un language qui permet d'écrire les tests 
+- et d'utiliser une librairie javascript pour les exécuter         
+    - **Karma** lance un navigateur (réél ou fantome) pour exécuter les tests
 
+## Principe
+- Chaque controleur ou service a son fichier de test nommer avec l'extention spec.js
+- Karma est configuré via le fichier **karma.conf.js** :
+    - pour aller chercher les fichiers ***.spec.js**
+    - pour inclure les fichiers utilent à l'éxécution (les fichiers Angular par exemple)' 
+    - pour utiliser un ou plusieurs navigateurs
+    - pour générer différents ype de rapport 
+
+---
+##Exemple de test de notre service
+- Avant l'éxecution du test, les modules necessaires sont chargés
+- Puis le service est injecté
+```javascript
+describe("Test unitaire du service feedService", function () {
+    var feedService;
+    //Chargement des modules (notre application et ses dépendances) 
+    beforeEach(function () {
+        module('ngRoute');
+        module('app');
+    });
+    //Injection du service que l'on veut utiliser
+    beforeEach(inject(function (_feedService_) {
+        feedService = _feedService_;
+    }))
+    //Test
+    it('Le service devrait être défini', function () {
+        expect(feedService).toBeDefined();
+    });
+});
+```
+---
+## Exemple de service "mocké"
+Ici le service $http est "mocké"
+```javascript
+    describe('Test de la méthode parseFeed ($http mocké)', function () {
+        var $httpBackend;
+        beforeEach(inject(function ($injector) {
+            // Initialisation du mock du service $http
+            $httpBackend = $injector.get('$httpBackend');
+            $httpBackend.when('GET', 'https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=9e8f2478bffb49bc92f9c43f75ceadbb')
+                .respond(200, { articles: [{author:'guillaume', title: '', description: '', url:'', urlToImage:'', publishedAt: new Date()}]});
+        }));
+        afterEach(function () {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+        it("Doit renvoyer un tableau d'articles dont la propriété author égale à 'guillaume' et la propriété publisheAt égae à la date du jour.", function() {
+            feedService.parseFeed("https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=9e8f2478bffb49bc92f9c43f75ceadbb").then(function (res) {
+                expect(res.data.articles[0].author === "guillaume");
+                expect(res.data.articles[0].publishiedAt === new Date());
+            });
+            $httpBackend.flush();
+        });
+    });   
+```
+---
+## Résultat du test
+
+![resultat du test](images/resultat-test.jpg)
+---
 template: inverse
 class: center
 
 ## L'environnement de developpement
 Comment coder !
 ---
-
+## Nodejs, npm, gulp
+Pour développer une application Angular il faut :
+- un bon éditeur de texte : atom, Studio code, WebStorm ...
+- une plateform de développement : Nodejs, npm
+  - **Nodejs** : est une plateforme construite sur le moteur Javascript V8 de Chrome qui permet de développer des applications en utilisant Javascript
+  - **npm** est le gestionaire de paquet de Nodejs
+- un outil de build : **gulp** qui permet d'éxécuter différentes tâches nécessaires à la construction du livrable
+    - de concaténer les différents source JS en un seul fichier
+    - idem pour les fichiers less
+    - controler le code (linters)
+    - lancer les tests unitaire
+    - fabriquer un tar 
+    - éxécuter l'application en local
+    - ...
+---
+## Structure du projet exemple
+![Structure projet](images/structure.jpg)
+- **dist** contient le projet exécutable
+- **node_modules** contient les modules npm
+- **src** contient les sources du projet
+- **test** contient les fichiers de test unitaire
+- **vendors** contient les ressources utilisés à l'éxécution (angular, bootstrap)
+- **gulpfile.js** décrit les taches de build
+- **karma-conf.js** décrit la configuration de Karma  
+- **package.json** décrit le projet et les modules nécessaires à sa construction 
+---
 template: inverse
 class: center
 
-## Angular chez ITCE
-Ce que ITCE fait avec Angular
+## Plus d'info
+[angularjs.org](http://angularjs.org)
+
+
+Cette présentation et les sources de l'application exemple sont disponibles sur 
+
+https://github.com/cyspeo/angular-presentation
 
 
 
