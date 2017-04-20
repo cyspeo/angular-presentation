@@ -1,9 +1,23 @@
-<h1>{{feed.title}}</h1>
+<h1>D&eacute;tail d'un article</h1>
 <div class="row">
-    <iframe ng-src="{{currentUrl}}" width="80%" height="80%"></iframe>
+    <div class="col-md-12">
+        <dl>
+            <dt>Auteur: </dt>
+            <dd>{{feed.author}}</dd>
+            <dt>Titre: </dt>
+            <dd>{{feed.title}}</dd>
+            <dt>Description: </dt>
+            <dd>{{feed.description}}</dd>
+            <dt>url: </dt>
+            <dd>{{feed.url}}</dd>
+            <dt>url Image: </dt>
+            <dd>{{feed.urlToImage}}</dd>
+            <dt>Date de publication: </dt>
+            <dd>{{feed.publishedAt}}</dd>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        <a class="btn btn-primary" href="#/">Back</a> 
+        <a class="btn btn-primary" href="#/">Retour</a> 
     </div>
 </div>

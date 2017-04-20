@@ -30,10 +30,8 @@ app.service('feedService', ['$http', function ($http) {
             return $http.get(url);
         }       
 }]);
-app.controller("detailFeedCtrl", ['$scope', '$routeParams', '$sce',  function ($scope, $routeParams, $sce) {
+app.controller("detailFeedCtrl", ['$scope', '$routeParams',  function ($scope, $routeParams) {
     $scope.feed = JSON.parse($routeParams.feed);
-    //L'utilisation du service $sce permet de lever le blocage de "cross domaine"
-    $scope.currentUrl = $sce.trustAsResourceUrl($scope.feed.url);
 }]);
 app.controller("feedCtrl", ['$scope', 'feedService', function ($scope, Feed) {
     $scope.feedSrc = "https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=9e8f2478bffb49bc92f9c43f75ceadbb";
