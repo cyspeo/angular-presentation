@@ -78,6 +78,8 @@ layout: false
 - Les problèmes de compatibilité entre navigateurs apparaisent!
 - Architecture Ajax : applications web dynamiques et interactives
 ]
+.footnote[.pull-rigth.black[<small>*DOM = Document Object Model : interface de programmation normalisée qui permet de modifier le contenu du navigateur*</small>]] 
+
 ---
 .left-column[
 ## Pages statiques
@@ -190,7 +192,7 @@ Ce qu'il faut retenir :
 Ces trois concepts portent ensemble la colonne vertebrale d'angular.  
 - Il participe au découplage DOM - logique
 - Le controller implemente l'objet $scope qui permet la communication avec la vue
-- Il contient les fonctions à appeler 
+- Il contient les fonctions  appelées par la vue
  
 ```html
 <body ng-app="app" ng-controller="mainCtrl as main">
@@ -262,12 +264,12 @@ Une premiere vue liste les articles et une seconde affiche le détail d'un artic
 ## Les services
 - Les services d'Angular sont des fonctions ou des objets avec un but bien précis. 
 - Cela participe au désire de modularité voulu par les développeurs d'Angular.
-- Ce sont des singletons (instance unique).
+- Ce sont des **singletons** (instance unique).
 - Comme pour les directives les services d'Angular ont une notation particulière : il commence par **$**
 
 Angular fourni des services très utiles :
 - **$location**: permet d'intéragir avec l'URL du navigateurs
-- **$route**: permet de changer de vue en fonciton de l'URL
+- **$route**: permet de changer de vue en fonction de l'URL
 - **$http**: permet de communiquer avec le serveur
 
 ---
