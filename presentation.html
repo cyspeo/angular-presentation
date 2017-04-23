@@ -144,8 +144,14 @@ name:exemple
 template: inverse
 class: center
 
-## Angular JS
-Les concepts dans le détail
+## Les concepts clés :
+Contrôleur
+
+Data-Binding
+
+Scope
+
+Pattern MVC
 ---
 layout: false
 ### Concepts clés
@@ -252,7 +258,14 @@ On retrouve les principes préconisés par angular :
 - découplage du DOM et de la logique,  
 - le pattern MVC ou MV*
 - le Data-Binding
+---
+template: inverse
+class: center
 
+## Architecture modulaire :
+Routage
+
+Service
 ---
 ## Application exemple : lecteur de flux rss
 Les concepts expliqués après montrent du code tirés d'une application exemple qui lit un flux rss d'actualité.
@@ -394,8 +407,9 @@ Cette directive permet de répéter un élément HTML en parcourant un tableau d
 - L'affichage est également trié sur la date de publication par ordre décroissant
 ---
 ## Resultat de l'exemple **ng-repeat**
-.ex-ng-repeat[
-<iframe width="100%" height="100%" src="./exemples/feedReader/dist/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<br/>
+.ex-ng-repeat.sample[
+<iframe width="100%" height="600px" src="./exemples/feedReader/dist/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 ]
 
 ---
@@ -446,6 +460,14 @@ Le rôle de se module est d'associer à une url une vue et son controler.
 - **ng-view**: permet de définir l'élément HTML qui accueillera les vues
 - **$routeProvider**: permet d'enregistrer les routes (urls) de notre applications
 
+<small><i>page index.html de notre application avec la directive ng-view</i></small>
+```html
+<body ng-app="app">
+    <div class="container-fluid">
+        <div class="container-fluid" ng-view></div>
+    </div>
+</body>
+```
 ---
 ## Configuration des routes de notre application
 La declaration de notre application utilise le module ngRoute
@@ -473,8 +495,8 @@ app.config(['$routeProvider', function ($routeProvider) {
 ---
 ## Exemple du routage
 *<small>Un clic sur un article déclenche le routage vers la page détails</small>*
-.ex-ng-repeat[
-<iframe width="100%" height="100%" src="./exemples/feedReader/dist/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+.ex-ng-repeat.sample[
+<iframe width="100%" height="600px" src="./exemples/feedReader/dist/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 ]
 ---
 template: inverse
