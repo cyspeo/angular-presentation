@@ -526,9 +526,9 @@ Apercu
 - Chaque controleur ou service a son fichier de test nommer avec l'extention spec.js
 - Karma est configuré via le fichier **karma.conf.js** :
     - pour aller chercher les fichiers ***.spec.js**
-    - pour inclure les fichiers utilent à l'éxécution (les fichiers Angular par exemple)' 
+    - pour inclure les fichiers utiles à l'éxécution (les fichiers Angular par exemple)' 
     - pour utiliser un ou plusieurs navigateurs
-    - pour générer différents ype de rapport 
+    - pour générer différents type de rapport 
 
 ---
 ##Exemple de test de notre service
@@ -620,18 +620,22 @@ class: center
 ## Un mot sur Angular 4.0.0
 
 ---
-## Architecture par composants 
-- Les applications angular sont constitués de composants
-- Un composant est une combinaison entre un template HTML et une classe qui contrôle la portion de d'écran du composant.
+## WebComponents
+### 4 principes fondateurs 
+- Augmenter les performances  
+    - Utilisation des briques natives du navigateur comme les **WebComponents**
+- Amélioré la productivité  
+    - Syntaxe basé sur ES2015 / **Typescript** (programmation objet)
+- S'adapter au mobile
+    - La **conception modulaire** permet de réduire l'empreinte mémoire sur les terminaux mobiles
+- Embrasser les nouveaux standard du web 
+    - **nouveauté de ES2015** : ShadowDom, Observables 
 
-## Typescript
-- Parceque c'est un language typé
-- Ca facilité la programmation objet 
-
-## Plus de filtre
-- Les filtres sont gérés cotés coté typescript sur les données
-- 
-
+### Rupture avec l'existant, abandon de
+- Two-way Data-Binding
+- Controllers : ils font parties du contexte this du composant
+- Scope /rootScope : Les scopes font partis du this du composant
+- Injection : Les injection se font par annotation
 
 ---
 template: inverse
