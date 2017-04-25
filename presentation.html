@@ -75,7 +75,7 @@ layout: false
 </html>
 ```
 - Le javascript manipule le DOM pour construire la page coté client
-- Les problèmes de compatibilité entre navigateurs apparaisent!
+- Les problèmes de compatibilité entre navigateurs apparaissent!
 - Architecture Ajax : applications web dynamiques et interactives
 ]
 .footnote[.pull-rigth.black[<small>*DOM = Document Object Model : interface de programmation normalisée qui permet de modifier le contenu du navigateur*</small>]] 
@@ -138,14 +138,14 @@ name:exemple
 
 ## Exemple d'application Web Javascript
 .large-image[
-  ![dashborad](images/dashboard.jpg)
+  ![dashboard](images/dashboard.jpg)
 ]      
 ---
 template: inverse
 class: center
 
 ## Les concepts clés :
-Contrôleur
+Controller
 
 Data-Binding
 
@@ -157,7 +157,7 @@ layout: false
 ### Concepts clés
 Le framework repose sur un mécanisme de directives, utilisées sous forme de mot clés à insérer dans le HTML.
 
-La force des développeurs d'Angular est de proposer une vision de l'architecture d'une application Javascript avec quelques préconisations : 
+Angular vient avec quelques préconisations : 
 - découplage du DOM et de la logique,
 - utilisation de composants,
 - automatisation des tests,
@@ -196,9 +196,9 @@ Ce qu'il faut retenir :
 ---
 ### **Controller**, Data-Binding et Scope
 Ces trois concepts portent ensemble la colonne vertebrale d'angular.  
-- Il participe au découplage DOM - logique
-- Le controller implemente l'objet $scope qui permet la communication avec la vue
-- Il contient les fonctions  appelées par la vue
+- Le contrôleur participe au découplage DOM - logique,
+- Il implémente l'objet $scope qui permet la communication avec la vue,
+- Il contient les fonctions  appelées par la vue.
  
 ```html
 <body ng-app="app" ng-controller="mainCtrl as main">
@@ -215,9 +215,9 @@ app.controller('mainCtrl', function($scope) {
 ```
 ---
 ### Controller, **Data-Binding** et Scope
-- C'est un moyen de lier la vue au controller.
+- C'est un moyen de lier la vue au contrôleur.
 - Toutes les données contenues dans le scope sont concernées
-- Lorsqu'une donnée change coté controleur, la vue est modifiée automatiquement et inversement.
+- Lorsqu'une donnée change côté contrôleur, la vue est modifiée automatiquement et inversement.
 #### Exemple
 .sample[
 <iframe width="100%" height="300" src="./exemples/exemple1/index.html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
@@ -225,9 +225,9 @@ app.controller('mainCtrl', function($scope) {
 
 ---
 ### Controller, Data-Binding et **Scope**
-- Le scope est un objet partagé entre la vue est le controller,
+- Le scope est un objet partagé entre la vue est le contrôleur,
 - Il représente le modèle de l'application
-- Chaque controleur créé son propre scope
+- Chaque contrôleur crée son propre scope
 - L'application a un scope global **$rootScope** qui englobe tous les scopes
 ```html
 <body ng-app="app" >
@@ -255,9 +255,9 @@ Les trois concepts, controller, binding et scope forment ensemble le pattern MVC
 
 ![mvc](images/mvc.jpg)
 On retrouve les principes préconisés par angular : 
-- découplage du DOM et de la logique,  
-- le pattern MVC ou MV*
-- le Data-Binding
+- Découplage du DOM et de la logique  
+- Le pattern MVC ou MV*
+- Le Data-Binding
 ---
 template: inverse
 class: center
@@ -268,9 +268,9 @@ Routage
 Service
 ---
 ## Application exemple : lecteur de flux rss
-Les concepts expliqués après montrent du code tirés d'une application exemple qui lit un flux rss d'actualité.
+Les concepts expliqués par la suite montrent du code tiré d'une application exemple qui lit un flux rss d'actualité.
 
-Une premiere vue liste les articles et une seconde affiche le détail d'un article. 
+Une première vue liste les articles et une seconde affiche le détail d'un article. 
 
 ![Architecture application exemple](images/archi.jpg)
 
@@ -278,13 +278,13 @@ Une premiere vue liste les articles et une seconde affiche le détail d'un artic
 
 ## La gestion des routes
 Dès que l'application se complexifie, nous allons devoir jongler avec différents écrans (vue).
-- le module ngRoute devient indispensable
-- il apporte une nouvelle directive : ng-view
-- ainsi que de nouveaux services : $route et son provider $routeProvider ainsi que $routeParams.
+- Le module ngRoute devient indispensable
+- Il apporte une nouvelle directive : ng-view
+- Ainsi que de nouveaux services : $route et son provider $routeProvider ainsi que $routeParams.
 
 <small><i>un provider permet d'instancier un service en le configurant</i></small>
 
-Le rôle de se module est d'associer à une url une vue et son controler.
+Le rôle de se module est d'associer à une url une vue et son contrôleur.
 
 - **ng-view**: permet de définir l'élément HTML qui accueillera les vues
 - **$routeProvider**: permet d'enregistrer les routes (urls) de notre applications
@@ -299,7 +299,7 @@ Le rôle de se module est d'associer à une url une vue et son controler.
 ```
 ---
 ## Configuration des routes de notre application
-La declaration de notre application utilise le module ngRoute
+La déclaration de notre application utilise le module ngRoute
 ```javascript
 var app = angular.module('app', ["ngRoute"]);
 ```
@@ -331,12 +331,12 @@ app.config(['$routeProvider', function ($routeProvider) {
 ---
 ## Les services
 - Les services d'Angular sont des fonctions ou des objets avec un but bien précis. 
-- Cela participe au désire de modularité voulu par les développeurs d'Angular.
+- Cela participe au désir de modularité voulu par les développeurs d'Angular.
 - Ce sont des **singletons** (instance unique).
 - Comme pour les directives les services d'Angular ont une notation particulière : il commence par **$**
 
 Angular fourni des services très utiles :
-- **$location**: permet d'intéragir avec l'URL du navigateurs
+- **$location**: permet d'interagir avec l'URL du navigateurs
 - **$route**: permet de changer de vue en fonction de l'URL
 - **$http**: permet de communiquer avec le serveur
 
@@ -344,8 +344,8 @@ Angular fourni des services très utiles :
 
 ## L'injection des dépendances
 
-- Permet à des modules de ne pas se soucier de l'instanciation des modules dont il dépend. 
-- Angular va donc rechercher les services dont nous avons besoins, récupèrer leur instance et les injecter dans notre controleur.
+- Permet à des modules de ne pas se soucier de l'instanciation des modules dont ils dépendent. 
+- Angular va donc rechercher les services dont nous avons besoins, récupèrer leur instance et les injecter dans notre contrôleur.
 - L'ordre des services injectés n'a pas d'importance
 ```javascript
         var mainCtrl = function($scope, $http) {
@@ -361,11 +361,11 @@ Angular fourni des services très utiles :
 
 ---
 
-## Création d'un services
+## Création d'un service
 
 - La création d'un service est assez simple. 
 - Il suffit de déclarer une fonction de type service au module de notre application.
-- Notre service injecte le service $http pour récupèrer un flux rss sur un serveur.
+- Notre service injecte le service $http pour récupérer un flux rss sur un serveur.
 
 ```javascript
 app.service('feedService', ['$http', function ($http) {
@@ -412,12 +412,12 @@ Les filtres
 
 ## Les directives
 - C'est un moyen de manipulation du DOM 
-- Elles se matérialise par des attributs utilisés dans le code HTML. 
+- Elles se matérialisent par des attributs utilisés dans le code HTML. 
 - Certaines peuvent être sous forme d'une classe css ou d'un élément HTML 
 - Elles permettent de modifier ou transformer le DOM.
 - **ng-app** : permet d'initialiser l'application
-- **ng-controller** : permet d'associer un controller à un élément du DOM
-- **ng-model** : permet de lié un input, textarea ou select à une variable du contexte actuel (scope)
+- **ng-controller** : permet d'associer un contrôleur à un élément du DOM
+- **ng-model** : permet de lier un input, textarea ou select à une variable du contexte actuel (scope)
 
 
 ```html
@@ -463,7 +463,7 @@ Cette directive permet de répéter un élément HTML en parcourant un tableau d
      </div>
 </div>
 ```
-- Ici ng-repeat parcour notre tableau **feeds** contenant le flux rss récupéré par le service.
+- Ici ng-repeat parcourt notre tableau **feeds** contenant le flux rss récupéré par le service.
 - La variable **feed** contient l'objet d'une occurrence
 - L'affichage est filtré par la valeur de filterText 
 - L'affichage est également trié sur la date de publication par ordre décroissant
@@ -480,7 +480,7 @@ On l'a vu dans l'exemple précédent Angular propose plusieurs filtres utilisabl
 
 - Plusieurs filtres peuvent s'enchainer :
   - {{expression | **uppercase** | **trim** }}  
-- Formatage d'un date :
+- Formatage d'une date :
   - {{date javascript | date:'dd-MM-yyyy'}}
 - Le tri  :
   - {{ng-repeat feed in feeds | **orderBy:'publishedAt':true**}}
@@ -513,26 +513,26 @@ template: inverse
 class: center
 
 ## Les tests unitaires
-Apercu 
+Aperçu 
 ---
 ## Les tests
-- Test unitaires possible sur les différents module/composants (contrôleurs, services, directives)
-- Le principe consiste à ecrire les tests dans un language pseudo naturel 
-    - **Jasmine** fourni un language qui permet d'écrire les tests 
+- Test unitaires possible sur les différents modules/composants (contrôleurs, services, directives)
+- Le principe consiste à écrire les tests dans un langage pseudo naturel 
+    - **Jasmine** fourni un langage qui permet d'écrire les tests 
 - et d'utiliser une librairie javascript pour les exécuter         
-    - **Karma** lance un navigateur (réél ou fantome) pour exécuter les tests
+    - **Karma** lance un navigateur (réel ou fantôme) pour exécuter les tests
 
 ## Principe
-- Chaque controleur ou service a son fichier de test nommer avec l'extention spec.js
+- Chaque contrôleur ou service a son fichier de test nommer avec l'extension spec.js
 - Karma est configuré via le fichier **karma.conf.js** :
     - pour aller chercher les fichiers ***.spec.js**
     - pour inclure les fichiers utiles à l'éxécution (les fichiers Angular par exemple)' 
     - pour utiliser un ou plusieurs navigateurs
-    - pour générer différents type de rapport 
+    - pour générer différents types de rapport 
 
 ---
 ##Exemple de test de notre service
-- Avant l'éxecution du test, les modules necessaires sont chargés
+- Avant l'execution du test, les modules nécessaires sont chargés
 - Puis le service est injecté
 ```javascript
 describe("Test unitaire du service feedService", function () {
@@ -580,27 +580,27 @@ Ici le service $http est "mocké"
 ---
 ## Résultat du test
 
-![resultat du test](images/resultat-test.jpg)
+![résultat du test](images/resultat-test.jpg)
 ---
 template: inverse
 class: center
 
-## L'environnement de developpement
+## L'environnement de développement
 Comment coder !
 ---
 ## Nodejs, npm, gulp
 Pour développer une application Angular il faut :
 - un bon éditeur de texte : atom, Studio code, WebStorm ...
-- une plateform de développement : Nodejs, npm
+- une plateforme de développement : Nodejs, npm
   - **Nodejs** : est une plateforme construite sur le moteur Javascript V8 de Chrome qui permet de développer des applications en utilisant Javascript
-  - **npm** est le gestionaire de paquet de Nodejs
-- un outil de build : **gulp** qui permet d'éxécuter différentes tâches nécessaires à la construction du livrable
+  - **npm** est le gestionnaire de paquet de Nodejs
+- un outil de build : **gulp** qui permet d'exécuter différentes tâches nécessaires à la construction du livrable
     - de concaténer les différents source JS en un seul fichier
     - idem pour les fichiers less
-    - controler le code (linters)
+    - contrôler le code (linters)
     - lancer les tests unitaire
     - fabriquer un tar 
-    - éxécuter l'application en local
+    - exécuter l'application en local
     - ...
 ---
 ## Structure du projet exemple
@@ -609,7 +609,7 @@ Pour développer une application Angular il faut :
 - **node_modules** contient les modules npm
 - **src** contient les sources du projet
 - **test** contient les fichiers de test unitaire
-- **vendors** contient les ressources utilisés à l'éxécution (angular, bootstrap)
+- **vendors** contient les ressources utilisés à l'exécution (angular, bootstrap)
 - **gulpfile.js** décrit les taches de build
 - **karma-conf.js** décrit la configuration de Karma  
 - **package.json** décrit le projet et les modules nécessaires à sa construction 
@@ -624,7 +624,7 @@ class: center
 ### 4 principes fondateurs 
 - Augmenter les performances  
     - Utilisation des briques natives du navigateur comme les **WebComponents**
-- Amélioré la productivité  
+- Améliorer la productivité  
     - Syntaxe basé sur ES2015 / **Typescript** (programmation objet)
 - S'adapter au mobile
     - La **conception modulaire** permet de réduire l'empreinte mémoire sur les terminaux mobiles
@@ -638,6 +638,16 @@ class: center
 - Injection : Les injection se font par annotation
 
 ---
+## Migration Angular 1 vers Angular 4
+
+- Une migration automatique est impossible
+- Il faut considérer Angular 4 comme un autre Framework
+### Anticipation
+- Implémenter des components en lieu et place des contrôleurs et directives
+- Supprimer les références à $scope
+- Privilégiez les services
+- Et bien sûr codez dès à présent en Typescript 
+---
 template: inverse
 class: center
 ## Ma mission à ITCE
@@ -649,9 +659,9 @@ class: center
 <img src="images/applis.jpg" alt="Applications" style="width: 600px;"/>
 
 ---
-## Des moyens collossaux : en amont, les ergonomes élaborent un visuel
+## Des moyens colossaux : en amont, les ergonomes élaborent un visuel
 - Elaboration d'une charte d'ergonomie
-<img src="images/elaboration.jpg" alt="elaboration des chartes" style="width: 700px;"/>
+<img src="images/elaboration.jpg" alt="élaboration des chartes" style="width: 700px;"/>
 - Elaboration d'une charte graphique
 <img src="images/charte-graphique.jpg" alt="charte-graphique" style="width: 700px;"/>
 
@@ -661,8 +671,13 @@ class: center
     -   pour un apport techniques lors de la conception des chartes
 - Réalisation du Framework IHM
 - Support aux développeurs
-- Réalisation d'un guide de style intéractif
+- Réalisation d'un guide de style interactif
 <img src="images/appli-exemple.jpg" alt="charte-graphique" style="width: 700px;"/>
+
+---
+## Exemples d'une application emblématique
+
+<img src="images/credit.jpg" alt="bdd" style="width: 800px;"/>
 ---
 template: inverse
 class: center
